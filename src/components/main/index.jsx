@@ -7,6 +7,17 @@ import { ThemeContext } from '../../contexts/themeContext';
 
 function Main() {
   const { globalTheme } = useContext(ThemeContext);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    // Atualiza a hora a cada segundo
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    // Limpa o intervalo quando o componente é desmontado
+    return () => clearInterval(intervalId);
+  }, []);
 
   const logoPicture = useTemplateVal('logoPicture', '');
   const airlineInformation = useTemplateVal('airlineInformation', '');
@@ -35,7 +46,7 @@ function Main() {
                     <img src={`./assets/${planePicture}.png`} alt="" />
                   </div>
                   <div>
-                    <h1>{airlineInformation.airportName}</h1>
+                    <h1>{currentTime}</h1>
                   </div>
                 </div>
               </section>
@@ -52,7 +63,10 @@ function Main() {
                 </div>
               </section>
               <section className='dateArea'>
-                <h1>{airlineInformation.airportName}</h1>
+                <span>
+                  <h1>{airlineInformation.airportName}</h1>
+                </span>
+                
               </section>
             </>
           )

@@ -1,0 +1,253 @@
+.main
+  width: 100vw
+  height: 100vh
+  color: #fff
+  display: flex
+  flex-direction: column
+  text-transform: capitalize
+
+.dateArea
+    display: flex
+    flex-direction:column
+    
+header
+  width: 100%
+  padding: 0.7rem 2rem
+  display: flex
+  justify-content: space-between
+
+  font-size: 2.2rem
+
+  section:first-child
+    width: 50%
+    display: flex
+    justify-content: space-between
+    align-items: center
+
+    #logo
+      background-color: #fff
+
+      display: flex
+      justify-content: center
+
+      padding: 6px 2px
+      border-radius: 10px
+
+      img
+        max-width: 10rem
+
+    div:last-child
+      display: flex
+      flex-direction: row
+      align-items: center
+      img
+        margin-left: 10px
+        max-width: 2.2rem
+        max-height: 2.2rem
+
+  section:last-child
+    // width: 50%
+    display: flex
+    justify-content: center
+    align-items: center
+
+    h1
+      // max-width: 80%
+
+.table
+  height: 84Vh
+  overflow: hidden
+
+  table
+    width: 100%
+    border-collapse: collapse
+
+    font-size: 2rem
+    thead
+      tr
+        th
+          padding: 0.5rem 0
+          text-align: start
+
+        th:first-child
+          padding-left: 2rem
+
+    tbody
+      tr
+        color: #000
+        td:first-child
+          padding: 0.5rem 0 0.5rem 2rem
+
+.airline-img
+  max-height: 3rem
+
+footer
+  height: 8Vh
+  padding: 1rem 0 0 2rem
+  font-size: 1.5rem
+
+@media only screen and (min-width: 1950px)
+  header
+    font-size: 1.7vw
+
+    section:first-child
+      div:last-child
+        img
+          max-width: 1.7vw
+          max-height: 1.7vw
+
+  .table
+    table
+      font-size: 1.5vw
+
+  .airline-img
+    max-height: 2vw
+
+  footer
+    font-size: 1.8vw
+    padding-top: 0.3vw
+
+@media only screen and (max-width: 1500px)
+  header
+    font-size: 1.7rem
+
+    section:first-child
+      div:last-child
+        img
+          max-width: 1.7rem
+          max-height: 1.7rem
+
+  .table
+    table
+      font-size: 1.6rem
+      thead
+        tr
+          // height: 2rem
+      tbody
+        tr
+          height: 2rem !important
+
+  .airline-img
+    max-height: 2rem
+
+  footer
+    font-size: 1.2rem
+
+@media only screen and (max-width: 1200px)
+  header
+    font-size: 1.5rem
+
+    section:first-child
+      div:last-child
+        img
+          max-width: 1.5rem
+          max-height: 1.5rem
+
+  .table
+    table
+      font-size: 1.4rem
+
+    tbody
+      tr
+        height: 1.8rem !important
+
+  .airline-img
+    max-height: 1.8rem
+
+  footer
+    font-size: 1rem
+
+@media only screen and (max-width: 1000px)
+  header
+    font-size: 1.3rem
+
+    section:first-child
+
+      #logo
+
+        img
+          max-width: 7rem
+          
+      div:last-child
+        img
+          max-width: 1.3rem
+          max-height: 1.3rem
+
+  .table
+    table
+      font-size: 1.2rem
+
+  .airline-img
+    max-height: 1.6rem
+
+  footer
+    font-size: 0.8rem
+    padding-top: 0.5rem
+
+@media only screen and (max-width: 700px)
+  header
+    font-size: 1.1rem
+    padding: 0.5rem
+
+    #sectionHeader
+      width: 100% !important
+        
+      #logo
+        max-width: 40%
+        margin: 10px
+        img
+          max-width: 6rem
+
+      >div:last-child
+        width: 50%
+        flex-direction: column-reverse !important
+        
+        div
+          width: 100%
+          display: flex 
+          justify-content: center
+          align-items: center
+
+  .table
+    table
+      font-size: 1rem
+
+      thead
+        tr
+          th:first-child
+            padding-left: 0.5rem
+
+          th
+            text-align: center
+
+      tbody
+        tr
+          text-align: center
+          border-bottom: 1px solid #adadad
+          td:first-child
+            padding-left: 0.5rem
+
+  .airline-img
+    max-height: 1.4rem
+
+  footer
+    font-size: 0.6rem
+    padding-top: 0.8rem
+    padding: 0.8rem 0 0 0.5rem
+
+@media only screen and (max-width: 500px)
+  header
+    font-size: 0.8rem
+    padding: 0.2rem
+
+    #sectionHeader
+      #logo
+        img
+          max-width: 5rem
+
+  .table
+    table
+      font-size: 0.7rem
+
+  .airline-img
+    max-height: 1.2rem

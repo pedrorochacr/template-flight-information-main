@@ -1,5 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './style.sass';
+import { IoAirplane } from 'react-icons/io5';
 import { format, parseISO } from 'date-fns';
 import { useTemplateVal } from '@dsplay/react-template-utils';
 import { useTranslation } from 'react-i18next';
@@ -57,16 +58,17 @@ function Main() {
                 <div id="logo">
                   <img src={logoPicture} alt="" />
                 </div>
-                <div>
+                <div className="centered-div">
                   <h1>{airlineInformation.departuresOrArrivals}</h1>
                   <img src={`assets/${planePicture}.png`} alt="" />
                 </div>
               </section>
-              <section className='dateArea'>
-                <span>
-                  <h1>{airlineInformation.airportName}</h1>
+              <section className="dateArea">
+                <span className="hour">
+                  <IoAirplane size={35} />
+                  <h1>{currentTime.toLocaleTimeString()}</h1>
                 </span>
-                
+                <span className="date">{currentTime.toLocaleDateString()}</span>
               </section>
             </>
           )

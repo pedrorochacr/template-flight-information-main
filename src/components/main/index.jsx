@@ -6,10 +6,10 @@ import { useTemplateVal } from '@dsplay/react-template-utils';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../contexts/themeContext';
 
-function Main() {
+function Main({ data }) {
   const { globalTheme } = useContext(ThemeContext);
   const [currentTime, setCurrentTime] = useState(new Date());
-
+  const flights = data[0].slice(0, 15);
   useEffect(() => {
     // Atualiza a hora a cada segundo
     const intervalId = setInterval(() => {
@@ -88,25 +88,18 @@ function Main() {
           </thead>
           <tbody>
             {
-              airlineInformation.flights.map((flight, index) => {
+              flights.map((flight, index) => {
                 const lineColor = (viewWidth < 700 || index % 2 !== 0) ? globalTheme.lineColor : '';
-
                 return (
                   <tr
-                    key={flight.flight + flight.airline}
+                    key={flight.flight.number}
                     style={{ backgroundColor: viewWidth > 700 ? lineColor : '' }}
                   >
                     <td>{flight.destination}</td>
-                    <td style={{ backgroundColor: viewWidth < 700 ? lineColor : '' }}>{flight.flight}</td>
-                    <td>
-                      <img
-                        src={flight.airline === '' ? './assets/earth.png' : flight.airline}
-                        alt="Airline"
-                        className="airline-img"
-                      />
-                    </td>
+                    <td style={{ backgroundColor: viewWidth < 700 ? lineColor : '' }}>{flight.flight.number}</td>
+                    <td>{flight.airline.name}</td>
                     <td style={{ backgroundColor: viewWidth < 700 ? lineColor : '' }}>
-                      {format(parseISO(flight.departureTime), 'HH:mm a')}
+                      {flight.departure.scheduledTime}
                     </td>
                     <td>{flight.gate}</td>
                     <td style={{ backgroundColor: viewWidth < 700 ? lineColor : '' }}>{flight.status}</td>

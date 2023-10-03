@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@dsplay/react-template-utils": "^4.0.0",
+    "axios": "^1.5.1",
     "date-fns": "^2.30.0",
     "i18next": "^20.6.1",
     "i18next-browser-languagedetector": "^6.1.8",

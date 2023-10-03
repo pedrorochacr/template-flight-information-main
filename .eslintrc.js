@@ -29,12 +29,6 @@ module.exports = {
   rules: {
     'no-console': 'warn',
     'import/prefer-default-export': 'warn',
-    'no-console': [
-      'error',
-      {
-        allow: ['time', 'timeEnd'],
-      },
-    ],
     'no-unused-vars': ['error', { 'args': 'none' }],
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',

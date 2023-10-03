@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import { useTemplateVal } from '@dsplay/react-template-utils';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../contexts/themeContext';
+import Intro from '../intro';
 
 const dateOptions = {
   hour: '2-digit',
@@ -13,6 +14,7 @@ const dateOptions = {
 function Main({ data, airports }) {
   const { globalTheme } = useContext(ThemeContext);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [loading, setLoading] = useState(true);
   const flights = data;
   const flightsReduced = flights.filter((flight) => {
     const flightTime = new Date(flight.departure.scheduledTime);
@@ -30,6 +32,11 @@ function Main({ data, airports }) {
 
     return () => clearInterval(intervalId);
   }, []);
+  useEffect(() => {
+    if (flightsReduced) {
+      setLoading(false);
+    }
+  }, [data]);
   const logoPicture = useTemplateVal('logoPicture', '');
   const airlineInformation = useTemplateVal('airlineInformation', '');
   const viewWidth = window.innerWidth;
@@ -40,7 +47,11 @@ function Main({ data, airports }) {
   if (planePicture !== 'up' && planePicture !== 'down') {
     planePicture = 'up';
   }
-
+  if (loading) {
+    return (
+      <Intro />
+    );
+  }
   return (
     <div className="main">
       <header style={{ backgroundColor: globalTheme.primaryColor }}>

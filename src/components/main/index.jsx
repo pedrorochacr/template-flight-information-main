@@ -6,20 +6,30 @@ import { useTemplateVal } from '@dsplay/react-template-utils';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../contexts/themeContext';
 
-function Main({ data }) {
+const dateOptions = {
+  hour: '2-digit',
+  minute: '2-digit',
+};
+function Main({ data, airports }) {
   const { globalTheme } = useContext(ThemeContext);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const flights = data[0].slice(0, 15);
+  const flights = data;
+  const flightsReduced = flights.filter((flight) => {
+    const flightTime = new Date(flight.departure.scheduledTime);
+    return flightTime <= currentTime;
+  });
+  flightsReduced.sort((a, b) => {
+    const scheduledTimeA = new Date(a.departure.scheduledTime);
+    const scheduledTimeB = new Date(b.departure.scheduledTime);
+    return scheduledTimeB - scheduledTimeA;
+  });
   useEffect(() => {
-    // Atualiza a hora a cada segundo
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
 
-    // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(intervalId);
   }, []);
-
   const logoPicture = useTemplateVal('logoPicture', '');
   const airlineInformation = useTemplateVal('airlineInformation', '');
   const viewWidth = window.innerWidth;
@@ -47,7 +57,7 @@ function Main({ data }) {
                     <img src={`./assets/${planePicture}.png`} alt="" />
                   </div>
                   <div>
-                    <h1>{currentTime}</h1>
+                    <h1>{currentTime.toLocaleTimeString()}</h1>
                   </div>
                 </div>
               </section>
@@ -83,26 +93,29 @@ function Main({ data }) {
               <th>{t('airline')}</th>
               <th>{t('time')}</th>
               <th>{t('gate')}</th>
-              <th>{t('status')}</th>
+              <th>Terminal</th>
             </tr>
           </thead>
           <tbody>
             {
-              flights.map((flight, index) => {
+              flightsReduced.map((flight, index) => {
                 const lineColor = (viewWidth < 700 || index % 2 !== 0) ? globalTheme.lineColor : '';
+                const flightDate = new Date(flight.departure.scheduledTime);
+                const { iataCode } = flight.arrival;
+                const destination = airports.find((a) => a.codeIataAirport === iataCode);
                 return (
                   <tr
                     key={flight.flight.number}
                     style={{ backgroundColor: viewWidth > 700 ? lineColor : '' }}
                   >
-                    <td>{flight.destination}</td>
+                    <td>{destination.nameAirport}</td>
                     <td style={{ backgroundColor: viewWidth < 700 ? lineColor : '' }}>{flight.flight.number}</td>
                     <td>{flight.airline.name}</td>
                     <td style={{ backgroundColor: viewWidth < 700 ? lineColor : '' }}>
-                      {flight.departure.scheduledTime}
+                      {flightDate.toLocaleString('pt-BR', dateOptions)}
                     </td>
-                    <td>{flight.gate}</td>
-                    <td style={{ backgroundColor: viewWidth < 700 ? lineColor : '' }}>{flight.status}</td>
+                    <td>{flight.departure.gate}</td>
+                    <td>{flight.departure.terminal}</td>
                   </tr>
                 );
               })

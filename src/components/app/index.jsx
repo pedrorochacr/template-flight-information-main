@@ -2,6 +2,7 @@ import { I18nextProvider } from 'react-i18next';
 import { Loader, useScreenInfo, useTemplateVal } from '@dsplay/react-template-utils';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import dataAirports from '../../util/airports.json';
 import Intro from '../intro';
 import Main from '../main';
 import i18n from '../../i18n';
@@ -16,6 +17,7 @@ function fetchFlightsData() {
       throw error; // Propague o erro para que a carga não continue se a requisição falhar
     });
 }
+
 const tasks = [
   () => fetchFlightsData(), // Suponha que fetchFlightsData seja uma função que retorna uma Promise
 ];
@@ -35,14 +37,11 @@ const fonts = [
 function App() {
   const { screenFormat } = useScreenInfo();
   const [results, setResults] = useState([]);
-  // other tasks (Promises) to run during template intro
   useEffect(() => {
-    // Função para executar todas as tarefas em paralelo
     const runTasks = async () => {
       try {
         const data = await Promise.all(tasks.map((task) => task()));
-        console.log(data);
-        setResults(data);
+        setResults(data[0]);
       } catch (error) {
         console.error('Erro ao executar tarefas:', error);
       }
@@ -50,7 +49,6 @@ function App() {
 
     runTasks();
   }, []);
-  // images to preload
   const logoPicture = useTemplateVal('logoPicture', '');
   const airlineInformation = useTemplateVal('airlineInformation', '');
 
@@ -72,7 +70,7 @@ function App() {
           tasks={tasks}
         >
           <div className={`app fade-in ${screenFormat}`}>
-            <Main data={results} />
+            <Main data={results} airports={dataAirports} />
           </div>
         </Loader>
       </ThemeContextParent>

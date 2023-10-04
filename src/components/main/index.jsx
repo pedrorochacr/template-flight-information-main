@@ -171,6 +171,7 @@ function Main({ data, airports }) {
                   <tr
                     key={flight.flight.number}
                     style={{ backgroundColor: viewWidth > 700 ? lineColor : '' }}
+                    className="flightData"
                   >
                     <td>{destination.nameAirport}</td>
                     <td style={{ backgroundColor: viewWidth < 700 ? lineColor : '' }}>{flight.flight.number}</td>

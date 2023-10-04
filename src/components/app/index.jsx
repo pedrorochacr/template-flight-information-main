@@ -7,10 +7,13 @@ import Main from '../main';
 import i18n from '../../i18n';
 import './style.sass';
 import ThemeContextParent from '../../contexts/themeContext';
-// console.log(U, Loader)
-const API_KEY = '08b5aa-fd83fa';
+
+const API_KEY = useTemplateVal('key');
+const airportIATA = useTemplateVal('CodigoIATA');
+const departureArrival = useTemplateVal('voosChegada');
 function fetchFlightsData() {
-  return axios.get(`https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode=BSB&type=departure`)
+  const type = departureArrival ? 'arrival':'departure';
+  return axios.get(`https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode='${airportIATA}&type=${type}`)
     .then((response) => response.data)
     .catch((error) => {
       throw error; // Propague o erro para que a carga não continue se a requisição falhar

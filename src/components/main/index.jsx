@@ -1,12 +1,19 @@
 import { useContext, useEffect, useState } from 'react';
 import './style.sass';
 import { IoAirplane } from 'react-icons/io5';
-import { format, parseISO } from 'date-fns';
 import { useTemplateVal } from '@dsplay/react-template-utils';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../contexts/themeContext';
 import Intro from '../intro';
 
+const formattedUpdateTime = {
+  hour: '2-digit',
+  minute: '2-digit',
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: '2-digit',
+};
 const dateOptions = {
   hour: '2-digit',
   minute: '2-digit',
@@ -15,6 +22,7 @@ function Main({ data, airports }) {
   const { globalTheme } = useContext(ThemeContext);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [loading, setLoading] = useState(true);
+  const [updateTime, setUpdateTime] = useState(new Date());
   const flights = data;
   const flightsReduced = flights.filter((flight) => {
     const flightTime = new Date(flight.departure.scheduledTime);
@@ -33,16 +41,24 @@ function Main({ data, airports }) {
     return () => clearInterval(intervalId);
   }, []);
   useEffect(() => {
+    const updateCurrentTime = () => {
+      setUpdateTime(new Date());
+    };
+    updateCurrentTime();
+    const updateInterval = setInterval(updateCurrentTime, 15 * 60 * 1000);
+    return () => clearInterval(updateInterval);
+  }, []);
+
+  useEffect(() => {
     if (flightsReduced) {
       setLoading(false);
     }
   }, [data]);
   const logoPicture = useTemplateVal('logoPicture', '');
-  const airlineInformation = useTemplateVal('airlineInformation', '');
+  const name = useTemplateVal('nome');
   const viewWidth = window.innerWidth;
   const airpoirtName = airports.find((a) => a.codeIataAirport === 'BSB');
   const { t } = useTranslation();
-
   let { planePicture } = airlineInformation;
 
   if (planePicture !== 'up' && planePicture !== 'down') {
@@ -85,9 +101,6 @@ function Main({ data, airports }) {
                   <img src={`assets/${planePicture}.png`} alt="" />
                 </div>
               </section>
-              <div className="centered-div airportName">
-                <h1>{airpoirtName.nameAirport}</h1>
-              </div>
               <section className="dateArea">
                 <span className="hour">
                   <IoAirplane size={35} />
@@ -139,9 +152,13 @@ function Main({ data, airports }) {
         </table>
       </section>
       <footer className="updateTime" style={{ backgroundColor: globalTheme.secondaryColor }}>
+        {airpoirtName.nameAirport}
+        ,
+        {' '}
         {t('update')}
         {' '}
-        {format(parseISO(airlineInformation.lastUpdate), 'HH:mm a EEEE MMM dd, yyyy')}
+        {updateTime.toLocaleString('pt-BR', formattedUpdateTime).replace(/,|às/g, '')}
+        {name}
       </footer>
     </div>
 

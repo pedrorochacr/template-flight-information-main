@@ -40,6 +40,7 @@ function Main({ data, airports }) {
   const logoPicture = useTemplateVal('logoPicture', '');
   const airlineInformation = useTemplateVal('airlineInformation', '');
   const viewWidth = window.innerWidth;
+  const airpoirtName = airports.find((a) => a.codeIataAirport === 'BSB');
   const { t } = useTranslation();
 
   let { planePicture } = airlineInformation;
@@ -84,6 +85,9 @@ function Main({ data, airports }) {
                   <img src={`assets/${planePicture}.png`} alt="" />
                 </div>
               </section>
+              <div className="centered-div airportName">
+                <h1>{airpoirtName.nameAirport}</h1>
+              </div>
               <section className="dateArea">
                 <span className="hour">
                   <IoAirplane size={35} />
@@ -134,7 +138,7 @@ function Main({ data, airports }) {
           </tbody>
         </table>
       </section>
-      <footer style={{ backgroundColor: globalTheme.secondaryColor }}>
+      <footer className="updateTime" style={{ backgroundColor: globalTheme.secondaryColor }}>
         {t('update')}
         {' '}
         {format(parseISO(airlineInformation.lastUpdate), 'HH:mm a EEEE MMM dd, yyyy')}

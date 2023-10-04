@@ -10,8 +10,17 @@
     display: flex
     flex-direction: column
     font-size: 1.2rem
-  
 
+.airportName
+  font-size: 1.0rem 
+
+.updateTime
+    max-height: 8%
+    position: fixed
+    bottom: 0;
+    width: 100%;
+    display: flex
+    align-items: center
 .hour
     display: flex
     flex-direction: row !important
@@ -22,6 +31,7 @@
     font-size: 1.9rem
 
 .centered-div
+    display: flex
     justify-content: center  
     text-align: center 
     align-items: center !important
@@ -73,7 +83,6 @@ header
       // max-width: 80%
 
 .table
-  height: 84Vh
   overflow: hidden
 
   table
@@ -104,7 +113,11 @@ footer
   padding: 1rem 0 0 2rem
   font-size: 1.5rem
 
-@media only screen and (min-width: 1950px)
+@media only screen and (min-width: 1000px)
+  .updateTime
+     font-size: 1.8vw
+
+@media only screen and (min-width: 1920px)
   header
     font-size: 1.7vw
 
@@ -124,6 +137,13 @@ footer
   footer
     font-size: 1.8vw
     padding-top: 0.3vw
+
+  .updateTime
+     max-height: 7%
+
+@media only screen and (min-height: 1250px)
+  .updateTime
+      max-height: 3%
 
 @media only screen and (max-width: 1500px)
   header
@@ -198,8 +218,10 @@ footer
   .airline-img
     max-height: 1.6rem
 
+  .updateTime
+     max-height: 4%
   footer
-    font-size: 0.8rem
+    font-size: 1.2rem
     padding-top: 0.5rem
 
 @media only screen and (max-width: 700px)

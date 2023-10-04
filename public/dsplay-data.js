@@ -28,15 +28,8 @@ var dsplay_template = {
     // logo: "../test-assets/dsplay-logo.png",
     // title: "My Super Template",
     // expanded: "false",
-    API_KEY: '08b5aa-fd83fa',
-    departureArrival: false,
-    airportIATA: 'BCB',
-    theme: {
-        primaryColor: '',
-        secondaryColor: '',
-        lineColor: '',
-    },
-    logoPicture: './dsplayLogo.png',
-    
- 
+    key: '08b5aa-fd83fa',
+    ChegadaSaida: "Chegada",
+    CodigoIATA: 'CNF',
+
 };

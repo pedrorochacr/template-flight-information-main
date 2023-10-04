@@ -1,8 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { createContext, useEffect, useState } from 'react';
-import {
-  useTemplateVal,
-} from '@dsplay/react-template-utils';
+import { createContext } from 'react';
 
 export const ThemeContext = createContext({
   globalTheme: {
@@ -13,28 +10,17 @@ export const ThemeContext = createContext({
 });
 
 const ThemeContextParent = (props) => {
-  const theme = useTemplateVal('theme', '');
+  const primary = '#008c9e';
+  const secondary = '#005f6b';
+  const line = '#cecece';
 
-  if (!theme.primaryColor) {
-    theme.primaryColor = '#008c9e';
-  }
-
-  if (!theme.secondaryColor) {
-    theme.secondaryColor = '#005f6b';
-  }
-
-  if (!theme.lineColor) {
-    theme.lineColor = '#cecece';
-  }
-
-  // const theme = activeTheme;
   const { children } = props;
 
   const value = {
     globalTheme: {
-      primaryColor: theme.primaryColor,
-      secondaryColor: theme.secondaryColor,
-      lineColor: theme.lineColor,
+      primaryColor: primary,
+      secondaryColor: secondary,
+      lineColor: line,
     },
   };
 

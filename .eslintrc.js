@@ -30,12 +30,6 @@ module.exports = {
     'no-console': 'warn',
     'import/prefer-default-export': 'warn',
     'no-unused-vars': ['error', { 'args': 'none' }],
-    'no-console': [
-      'error',
-      {
-        allow: ['time', 'timeEnd'],
-      },
-    ],
     'react/jsx-props-no-spreading': 'off',
     'react/prop-types': 'off',
     'react/jsx-uses-react': 'off',

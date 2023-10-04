@@ -30,8 +30,11 @@ i18n
         translations: {
           locale: ptBR,
           destination: 'Destinos',
+          origin: 'Origens',
+          departures: 'Saídas',
           flight: 'Voos',
           airline: 'Companhia aérea',
+          arrivals: 'Chegadas',
           time: 'Hora',
           gate: 'Portão',
           status: 'Situação',

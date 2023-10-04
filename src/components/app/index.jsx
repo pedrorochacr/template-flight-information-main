@@ -8,42 +8,26 @@ import i18n from '../../i18n';
 import './style.sass';
 import ThemeContextParent from '../../contexts/themeContext';
 
-const API_KEY = useTemplateVal('key');
-const airportIATA = useTemplateVal('CodigoIATA');
-const departureArrival = useTemplateVal('voosChegada');
-function fetchFlightsData() {
-  const type = departureArrival ? 'arrival':'departure';
-  return axios.get(`https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode='${airportIATA}&type=${type}`)
-    .then((response) => response.data)
-    .catch((error) => {
-      throw error; // Propague o erro para que a carga não continue se a requisição falhar
-    });
-}
-
-const tasks = [
-  () => fetchFlightsData(), // Suponha que fetchFlightsData seja uma função que retorna uma Promise
-];
-// fonts to preload
-
 function App() {
   const { screenFormat } = useScreenInfo();
   const [results, setResults] = useState([]);
+  const API_KEY = useTemplateVal('key');
+  const airportIATA = useTemplateVal('CodigoIATA');
+  const departureArrival = useTemplateVal('ChegadaSaida');
   useEffect(() => {
-    const runTasks = async () => {
-      const data = await Promise.all(tasks.map((task) => task()));
-      setResults(data[0]);
-    };
-    runTasks();
-  }, []);
-  const logoPicture = useTemplateVal('logoPicture', '');
-  const airlineInformation = useTemplateVal('airlineInformation', '');
-
-  const images = [
-    airlineInformation.planePicture,
-    logoPicture,
-  ];
-
-  airlineInformation.flights.map((item) => images.push(item.airline));
+    function fetchFlightsData() {
+      const type = departureArrival === 'Chegada' ? 'arrival' : 'departure';
+      return axios.get(`https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode=${airportIATA}&type=${type}`)
+        .then((response) => response.data)
+        .catch((error) => {
+          throw error; // Propague o erro para que a carga não continue se a requisição falhar
+        });
+    }
+    fetchFlightsData()
+      .then((data) => {
+        setResults(data);
+      });
+  }, []); // Dependências do useEffect
 
   return (
     <I18nextProvider i18n={i18n}>

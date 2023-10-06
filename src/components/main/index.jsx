@@ -28,8 +28,6 @@ function Main({ data, airports }) {
   const API_KEY = useTemplateVal('key');
   const airportIATA = useTemplateVal('CodigoIATA');
   const departureArrival = useTemplateVal('ChegadaSaida');
-  const logoPicture = useTemplateVal('logo');
-  console.log(logoPicture);
   async function fetchFlightsData() {
     const type = departureArrival === 'Chegada' ? 'arrival' : 'departure';
     const response = await axios.get(`https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode=${airportIATA}&type=${type}`);
@@ -40,7 +38,8 @@ function Main({ data, airports }) {
       const arrival = departureArrival === 'Chegada';
       const time = arrival ? flight.arrival.scheduledTime : flight.departure.scheduledTime;
       const flightTime = new Date(time);
-      return flightTime >= currentTime;
+      const codesharedIsNotNull = flight.codeshared === null;
+      return flightTime >= currentTime && codesharedIsNotNull;
     });
     flightsReduced.sort((a, b) => {
       const arrival = departureArrival === 'Chegada';
@@ -67,7 +66,8 @@ function Main({ data, airports }) {
         const arrival = departureArrival === 'Chegada';
         const time = arrival ? flight.arrival.scheduledTime : flight.departure.scheduledTime;
         const flightTime = new Date(time);
-        return flightTime >= currentTime;
+        const codesharedIsNotNull = flight.codeshared === null;
+        return flightTime >= currentTime && codesharedIsNotNull;
       });
       flightsUpdated.sort((a, b) => {
         const arrival = departureArrival === 'Chegada';

@@ -29,7 +29,8 @@ var dsplay_template = {
     // title: "My Super Template",
     // expanded: "false",
     key: '08b5aa-fd83fa',
-    ChegadaSaida: "Chegada",
+    ChegadaSaida: "Saida",
     CodigoIATA: 'CNF',
+    
 
 };

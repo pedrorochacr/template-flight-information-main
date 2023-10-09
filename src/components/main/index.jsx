@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import './style.sass';
 import { IoAirplane } from 'react-icons/io5';
 import axios from 'axios';
-import { useTemplateVal } from '@dsplay/react-template-utils';
+import { useMedia } from '@dsplay/react-template-utils';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../contexts/themeContext';
 import Intro from '../intro';
@@ -25,24 +25,24 @@ function Main({ data, airports }) {
   const [loading, setLoading] = useState(true);
   const [updateTime, setUpdateTime] = useState(new Date());
   const [flights, setFlights] = useState([]);
-  const API_KEY = useTemplateVal('key');
-  const airportIATA = useTemplateVal('CodigoIATA');
-  const departureArrival = useTemplateVal('ChegadaSaida');
+  const media = useMedia();
+  const API_KEY = media.apiKey;
+  const airportIATA = media.iataCode;
+  const departureArrival = media.arrivalDeparture;
   async function fetchFlightsData() {
-    const type = departureArrival === 'Chegada' ? 'arrival' : 'departure';
-    const response = await axios.get(`https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode=${airportIATA}&type=${type}`);
+    const response = await axios.get(`https://aviation-edge.com/v2/public/timetable?key=${API_KEY}&iataCode=${airportIATA}&type=${departureArrival}`);
     return response.data;
   }
   useEffect(() => {
     const flightsReduced = data.filter((flight) => {
-      const arrival = departureArrival === 'Chegada';
+      const arrival = departureArrival === 'arrival';
       const time = arrival ? flight.arrival.scheduledTime : flight.departure.scheduledTime;
       const flightTime = new Date(time);
       const codesharedIsNotNull = flight.codeshared === null;
       return flightTime >= currentTime && codesharedIsNotNull;
     });
     flightsReduced.sort((a, b) => {
-      const arrival = departureArrival === 'Chegada';
+      const arrival = departureArrival === 'arrival';
       const timeA = arrival ? a.arrival.scheduledTime : a.departure.scheduledTime;
       const timeB = arrival ? b.arrival.scheduledTime : b.departure.scheduledTime;
       const scheduledTimeA = new Date(timeA);
@@ -63,14 +63,14 @@ function Main({ data, airports }) {
       setUpdateTime(new Date());
       let flightsUpdated = await fetchFlightsData();
       flightsUpdated = flightsUpdated.filter((flight) => {
-        const arrival = departureArrival === 'Chegada';
+        const arrival = departureArrival === 'arrival';
         const time = arrival ? flight.arrival.scheduledTime : flight.departure.scheduledTime;
         const flightTime = new Date(time);
         const codesharedIsNotNull = flight.codeshared === null;
         return flightTime >= currentTime && codesharedIsNotNull;
       });
       flightsUpdated.sort((a, b) => {
-        const arrival = departureArrival === 'Chegada';
+        const arrival = departureArrival === 'arrival';
         const timeA = arrival ? a.arrival.scheduledTime : a.departure.scheduledTime;
         const timeB = arrival ? b.arrival.scheduledTime : b.departure.scheduledTime;
         const scheduledTimeA = new Date(timeA);
@@ -93,11 +93,11 @@ function Main({ data, airports }) {
     }
   }, []);
   const viewWidth = window.innerWidth;
-  const iataAirpot = useTemplateVal('CodigoIATA');
+  const iataAirpot = media.iataCode;
   const airpoirtName = airports.find((a) => a.codeIataAirport === iataAirpot);
   const { t } = useTranslation();
   let planePicture = 'up';
-  if (departureArrival === 'Chegada') {
+  if (departureArrival === 'arrival') {
     planePicture = 'down';
   }
   if (loading) {
@@ -113,7 +113,7 @@ function Main({ data, airports }) {
             <>
               <section id="sectionHeader">
                 <div>
-                  <h1>{departureArrival === 'Chegada' ? t('arrivals') : t('departures')}</h1>
+                  <h1>{departureArrival === 'arrival' ? t('arrivals') : t('departures')}</h1>
                   <img src={`./assets/${planePicture}.png`} alt="" />
                 </div>
                 <div>
@@ -127,7 +127,7 @@ function Main({ data, airports }) {
             <>
               <section>
                 <div>
-                  <h1>{departureArrival === 'Chegada' ? t('arrivals') : t('departures')}</h1>
+                  <h1>{departureArrival === 'arrival' ? t('arrivals') : t('departures')}</h1>
                   <img src={`./assets/${planePicture}.png`} alt="" />
                 </div>
               </section>
@@ -146,19 +146,19 @@ function Main({ data, airports }) {
         <table>
           <thead>
             <tr style={{ backgroundColor: globalTheme.secondaryColor }}>
-              <th>{departureArrival === 'Chegada' ? t('origin') : t('destination')}</th>
+              <th>{departureArrival === 'arrival' ? t('origin') : t('destination')}</th>
               <th>{t('flight')}</th>
               <th>{t('airline')}</th>
               <th>{t('time')}</th>
               <th>{t('gate')}</th>
-              <th>Terminal</th>
+              <th>{t('terminal')}</th>
             </tr>
           </thead>
           <tbody>
             {
               flights.map((flight, index) => {
                 const lineColor = (viewWidth < 700 || index % 2 !== 0) ? globalTheme.lineColor : '';
-                const arrival = departureArrival === 'Chegada';
+                const arrival = departureArrival === 'arrival';
                 const arrivalTime = flight.arrival.scheduledTime;
                 const departureTime = flight.departure.scheduledTime;
                 const varDate = arrival ? arrivalTime : departureTime;

@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { createContext } from 'react';
-import { useTemplateVal } from '@dsplay/react-template-utils';
 
 export const ThemeContext = createContext({
   globalTheme: {
